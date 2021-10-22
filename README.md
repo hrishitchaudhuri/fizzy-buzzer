@@ -11,12 +11,12 @@ Go through the sub-directories to uncover the secret that hiring managers **don'
 ## Common instructions
 
 ## Contribution
-Why would you do that? I am no psychic (unfortunately).  
+Why would you want do that? I'm absolutely clueless.  
 Anyways, feel free to do that however you like!
 
 ## Bonus
-Because someone decided there's a little *too* much joy in this world, here are some ways to get your daily dose of depression:
+Because someone decided there's a little *too* much joy in this world. Here are some ways to get your daily dose of depression:
 * [Is this the real life?](https://leetcode.com)
-* [Is this just fantasy?](https://binarysearch.com)
+* [Is this just fantasy?](https://hackerearth.com)
 * [Caught in a landslide,](https://hackerrank.com)
 * [No escape from reality](https://www.codechef.com/)
