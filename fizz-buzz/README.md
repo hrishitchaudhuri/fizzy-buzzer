@@ -3,7 +3,7 @@ Why is Buzz fizzing? Why is Fizz buzzing? Like many things in the hiring process
 
 ## What is this
 The one shot method to determine your worth, candidate #42069.  
-Did you actually think "tell me about yourself" mattered? Tut tut. Go suck a dick.  
+"Tell me about yourself"? More like "Stall for 30s while I do inky-pinky-ponky on this question bank".  
 I'm waaay to lazy to explain it so here ya go : [Nice Wikipedia link](https://en.wikipedia.org/wiki/Fizz_buzz#Programming).
 
 ## Usage
