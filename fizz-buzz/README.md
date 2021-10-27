@@ -7,7 +7,7 @@ The one shot method to determine your worth, candidate #42069.
 I'm waaay to lazy to explain it so here ya go : [Nice Wikipedia link](https://en.wikipedia.org/wiki/Fizz_buzz#Programming).
 
 ## Usage
-* Create executable using `make` or using `nasm`(64 bit format) and linking it.
+* Create executable using `make` or using `nasm`(64 bit format) and a linker.
 * Execute it as `./z.out`. It will prompt you for the number of fizz buzz numbers to be printed.
 
 ## Notes

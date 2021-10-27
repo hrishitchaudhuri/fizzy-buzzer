@@ -29,11 +29,50 @@ _start:
 	mov r14, 1
 start_loop:
 	mov rax, r14
+	push rax
+
+	mov r8, 3
+	mov r9, 5
+
+	; is div by 3?
+	mov rdx, 0
+	idiv r8
+	cmp rdx, 0
+	jne five_
+	mov rax, fizz
+	call _print
+
+five_:
+	pop rax
+	push rax
+	; is div by 5?
+	mov rdx, 0
+	idiv r9
+	cmp rdx, 0
+	jne notfive_
+	mov rax, buzz
+	call _print
+	jmp moveon_
+
+notfive_:
+	pop rax
+	push rax
+	; is not div by 3?
+	mov rdx, 0
+	idiv r8
+	cmp rdx, 0
+	je moveon_
+	
+	pop rax
+	; print out rax
 	call _itoa
 	mov rax, buffer
 	call _print
+
+moveon_:
 	mov rax, newline
 	call _print
+	; setup for next iteration, if any
 	inc r14
 	dec r15
 	cmp r15, 0
