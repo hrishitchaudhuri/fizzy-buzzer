@@ -27,7 +27,7 @@ _helloworld:
 	mov rax, 1	; Id of the syscall -> sys_write here
 	mov rdi, 1	; First argument. file descriptor
 	mov rsi, text	; Second argument. Memory location of data to write
-	mov rdx, 14	; Number of bytes to write
+	mov rdx, 13	; Number of bytes to write
 	; Now we call a kernel function with those arguments
 	syscall
 

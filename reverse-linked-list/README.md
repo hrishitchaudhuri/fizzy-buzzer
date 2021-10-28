@@ -7,6 +7,7 @@ Yes, this is a bucket of cringe.
 Why do this? WYNAUT?
 
 ## Usage
+* Create the executable with `make` or `nasm`(elf64 format) and a linker.
 * Execute it as `./z.out [number of elements in the list]`
 * The program will prompt you to enter the values of nodes in the list
 
