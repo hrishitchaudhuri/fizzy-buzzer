@@ -2,6 +2,7 @@
 ; stack grows from high addr to low addr
 section .data
 	prompt db "Enter values of nodes. One per line:",10,0
+	resultText db "The reversed linked list is:",10,0
 	newline db 10,0
 	space db " ",0
 
@@ -77,37 +78,21 @@ insert_loop:
 	cmp r15, 0
 	jne insert_loop
 
-	; print list
-	movNxt [cur], [head]
-prnLoop:
-	printNode [cur]
-	mov rax, newline
-	call _print
-	movNxt [cur], [cur]
-	mov r14, [cur]
-	mov r15, 0
-	cmp r14, r15
-	jne prnLoop
-
-	call _exit
-
 	; reverse the list
 	movPtr [pre], [head] ; pre = head
 	movNxt [cur], [head] ; cur = head->next
 revLoop:
-	printNode [tmp]
+	; printNode [cur]
 	movNxt [tmp], [cur] ; tmp = cur->next
 	movNxtAlt [cur], [pre] ; cur->next = pre
 	movPtr [pre], [cur] ; pre = cur
 	movPtr [cur], [tmp] ; cur = tmp
-	movNxt r15, [cur]
+	mov r15, [cur]
 	cmp r15, 0
 	jne revLoop
 
-	mov rax, newline
+	mov rax, resultText
 	call _print
-
-	call _exit
 	
 	; print out the list
 	movPtr [cur], [pre]
@@ -128,7 +113,7 @@ printLoop:
 ; simple memory management since we are not deleting nodes
 ; therefore no need to take care of internal fragm.
 _allocNode:
-	mov rax, 12 ; sys_brk
+	mov rax, 12
 	mov rdi, 0
 	syscall ; sys_brk(0) get cur brk loc
 	mov qword [newnode], rax

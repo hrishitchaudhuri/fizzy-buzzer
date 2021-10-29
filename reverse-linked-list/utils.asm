@@ -121,10 +121,10 @@ loop_end:
 ; specifically to do dst = src->next
 %macro movNxt 2
 	push rbx
-	mov qword rbx, %2
-	lea rbx, [rbx+8]
-	mov rbx, [rbx]
-	mov qword %1, rbx
+	mov qword rbx, %2 ; get addr
+	lea rbx, [rbx+8] ; shift
+	mov qword rbx, [rbx] ; get loc pointed to by next
+	mov qword %1, rbx ; put loc into dest
 	pop rbx
 %endmacro
 
