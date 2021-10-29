@@ -2,6 +2,8 @@
 STDIN   equ 0
 STDOUT  equ 1
 STDERR  equ 2
+; 16*8 = 128 bits (64 val + 64 addr)
+NODESIZE equ 16
 
 ; exit(0)
 _exit:
@@ -101,3 +103,67 @@ loop_end:
 	mov rax, newline
 	call _print
 %endmacro
+
+%macro movPtr 2
+	push rbx
+	mov rbx, %2
+	mov %1, rbx
+	pop rbx
+%endmacro
+
+; literally the same thing as movPtr but renamed so that it gives the correct idea to the reader (yes, me)
+%macro movVal 2
+	push rbx
+	mov rbx, %2
+	mov %1, rbx
+	pop rbx
+%endmacro
+
+; specifically to do dst = src->next
+%macro movNxt 2
+	push rbx
+	mov rbx, %2
+	lea rbx, [rbx+8]
+	mov %1, rbx
+	pop rbx
+%endmacro
+
+; specifically to do dst->next = src
+%macro movNxtAlt 2
+	push rbx
+	mov rbx, %1
+	lea rbx, [rbx+8]
+	push rdx
+	mov rdx, %2
+	mov [rbx], rdx
+	pop rdx
+	pop rbx
+%endmacro
+
+%macro cmpPtr 2
+	push r14
+	push r15
+	mov r14, %1
+	mov r15, %2
+	cmp r14, r15
+	pop r15
+	pop r14
+%endmacro
+
+; clear the buffer by setting it to all zeros
+_clrBuf:
+	mov al, 0
+	mov rsi, buffer
+	mov rdi, buffer
+	add rdi, 16
+	stosb
+	ret
+
+; get the number from stdin and store it in buffer
+_getInput:
+	call _clrBuf	
+	mov rax, 0
+	mov rdi, 0
+	mov rsi, buffer
+	syscall	
+	ret

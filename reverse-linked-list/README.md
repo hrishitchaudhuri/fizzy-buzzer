@@ -12,4 +12,5 @@ Why do this? WYNAUT?
 * The program will prompt you to enter the values of nodes in the list
 
 ## Notes
-If you haven't started making paper planes out of offer letters yet, oh well, there's nothing left here. Why haven't you started building your own cryptocurrency already, huh?
+If you haven't started making paper planes out of offer letters yet, oh well, there's nothing left here. Why haven't you started building your own cryptocurrency already, huh?  
+This one is also an attempt at better code organization (better, not good) so `utils.asm` contains generic code that is used multiple times (for the most part) while `reverselinkedlist.asm` contains the "main" code. Have fun!
