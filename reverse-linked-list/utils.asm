@@ -39,11 +39,10 @@ loop1_end:
 
 ; clear the number buffer by setting it to all zeros
 _clrNum:
-	mov al, 0
-	mov rsi, number
-	mov rdi, number
-	add rdi, 8
-	stosb
+	push rax
+	xor rax, rax
+	mov qword [number], rax
+	pop rax
 	ret
 
 ; convert value in rax to string and store in buffer
@@ -106,36 +105,37 @@ loop_end:
 
 %macro movPtr 2
 	push rbx
-	mov rbx, %2
-	mov %1, rbx
+	mov qword rbx, %2
+	mov qword %1, rbx
 	pop rbx
 %endmacro
 
 ; literally the same thing as movPtr but renamed so that it gives the correct idea to the reader (yes, me)
 %macro movVal 2
 	push rbx
-	mov rbx, %2
-	mov %1, rbx
+	mov qword rbx, %2
+	mov qword %1, rbx
 	pop rbx
 %endmacro
 
 ; specifically to do dst = src->next
 %macro movNxt 2
 	push rbx
-	mov rbx, %2
+	mov qword rbx, %2
 	lea rbx, [rbx+8]
-	mov %1, rbx
+	mov rbx, [rbx]
+	mov qword %1, rbx
 	pop rbx
 %endmacro
 
 ; specifically to do dst->next = src
 %macro movNxtAlt 2
 	push rbx
-	mov rbx, %1
+	mov qword rbx, %1
 	lea rbx, [rbx+8]
 	push rdx
-	mov rdx, %2
-	mov [rbx], rdx
+	mov qword rdx, %2
+	mov qword [rbx], rdx
 	pop rdx
 	pop rbx
 %endmacro
@@ -150,13 +150,30 @@ loop_end:
 	pop r14
 %endmacro
 
+; given the address of the node print its value
+%macro printNode 1
+	push rax
+	push rdx
+	mov qword rax, %1
+	mov qword rax, [rax]
+	call _itoa
+	mov rax, buffer
+	call _print
+	mov rax, space
+	call _print
+	pop rdx
+	pop rax
+%endmacro
+
 ; clear the buffer by setting it to all zeros
 _clrBuf:
+	push rax
 	mov al, 0
 	mov rsi, buffer
 	mov rdi, buffer
 	add rdi, 16
 	stosb
+	pop rax
 	ret
 
 ; get the number from stdin and store it in buffer

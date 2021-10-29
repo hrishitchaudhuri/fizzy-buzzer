@@ -1,7 +1,7 @@
 %include "utils.asm"
 ; stack grows from high addr to low addr
 section .data
-	prompt db "Enter values of nodes. One on each line:",10,0
+	prompt db "Enter values of nodes. One per line:",10,0
 	newline db 10,0
 	space db " ",0
 
@@ -43,11 +43,16 @@ _start:
 	cmp r15, 0
 	je _exit
 
+	mov rax, prompt
+	call _print
+
 	; build the list
 insert_loop:
+	push r15
 	call _getInput
 	mov rax, buffer
 	call _atoi
+	mov rax, [number]
 
 	; tmp->next = new node();
 	; tmp = tmp->next
@@ -56,40 +61,59 @@ insert_loop:
 	call _allocNode
 	mov rdx, [tmp] ; rdx = tmp
 	lea rdx, [rdx+8] ; rdx = rdx+8 (ptr to next)
-	movPtr [rdx], [newnode] ; *rdx = new node()
-	mov [tmp], rdx ; tmp = rdx (ptr to next)
+	movPtr [rdx], [newnode] ; *(tmp).next = new node()
+	movPtr [tmp], [rdx] ; tmp = *(tmp).next
+	mov rdx, [rdx]
 	
 	movVal [rdx], [number] ; tmp->val = val
+
+	; printNode rdx
+
 	lea rdx, [rdx+8]
 	movPtr [rdx], 0 ; tmp->next = 0
 
+	pop r15
 	dec r15
 	cmp r15, 0
 	jne insert_loop
+
+	; print list
+	movNxt [cur], [head]
+prnLoop:
+	printNode [cur]
+	mov rax, newline
+	call _print
+	movNxt [cur], [cur]
+	mov r14, [cur]
+	mov r15, 0
+	cmp r14, r15
+	jne prnLoop
+
+	call _exit
 
 	; reverse the list
 	movPtr [pre], [head] ; pre = head
 	movNxt [cur], [head] ; cur = head->next
 revLoop:
+	printNode [tmp]
 	movNxt [tmp], [cur] ; tmp = cur->next
 	movNxtAlt [cur], [pre] ; cur->next = pre
 	movPtr [pre], [cur] ; pre = cur
 	movPtr [cur], [tmp] ; cur = tmp
-	mov r15, [cur]
-	cmp r15b, 0
+	movNxt r15, [cur]
+	cmp r15, 0
 	jne revLoop
+
+	mov rax, newline
+	call _print
+
+	call _exit
 	
 	; print out the list
 	movPtr [cur], [pre]
 printLoop:
 	; print out cur->val
-	mov rax, [cur]
-	mov rax, [rax]
-	call _itoa
-	mov rax, buffer
-	call _print
-	mov rax, space
-	call _print
+	printNode [cur]
 
 	movNxt [cur], [cur]
 	cmpPtr [cur], [head]
